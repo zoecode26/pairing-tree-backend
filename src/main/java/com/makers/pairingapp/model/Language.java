@@ -1,26 +1,23 @@
 package com.makers.pairingapp.model;
 
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "AVAILABILITY")
-public class Availability {
-
+@Table(name = "LANGUAGES")
+public class Language {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Timestamp start_time;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+    private String lang;
 
-    public Availability(){}
+    public Language(){}
 
-    public Availability(Timestamp start_time) {
-        this.start_time = start_time;
+    public Language(String lang) {
+        this.lang = lang;
     }
 
     public Long getId() {
@@ -31,20 +28,20 @@ public class Availability {
         this.id = id;
     }
 
-    public Timestamp getStart_time() {
-        return start_time;
+    public String getLang() {
+        return lang;
     }
 
-    public void setStart_time(Timestamp start_time) {
-        this.start_time = start_time;
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Availability that = (Availability) o;
-        return Objects.equals(id, that.id);
+        Language language = (Language) o;
+        return Objects.equals(id, language.id);
     }
 
     @Override
@@ -54,9 +51,9 @@ public class Availability {
 
     @Override
     public String toString() {
-        return "Availability{" +
+        return "Language{" +
                 "id=" + id +
-                ", start_time=" + start_time +
+                ", lang='" + lang + '\'' +
                 '}';
     }
 }
