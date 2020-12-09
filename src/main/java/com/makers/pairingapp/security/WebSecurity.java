@@ -1,6 +1,6 @@
 package com.makers.pairingapp.security;
 
-import com.makers.pairingapp.dao.ApplicationUserRepository;
+import com.makers.pairingapp.dao.ApplicationUserDAO;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,12 +20,12 @@ import static com.makers.pairingapp.security.SecurityConstants.SIGN_UP_URL;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
   private UserDetailsServiceImpl userDetailsService;
   private BCryptPasswordEncoder bCryptPasswordEncoder;
-  private ApplicationUserRepository applicationUserRepository;
+  private ApplicationUserDAO applicationUserDAO;
 
-  public WebSecurity(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder, ApplicationUserRepository applicationUserRepository) {
+  public WebSecurity(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder, ApplicationUserDAO applicationUserDAO) {
     this.userDetailsService = userDetailsService;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    this.applicationUserRepository = applicationUserRepository;
+    this.applicationUserDAO = applicationUserDAO;
   }
 
   @Override
@@ -34,7 +34,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
             .anyRequest().authenticated()
             .and()
-            .addFilter(new JWTAuthenticationFilter(authenticationManager(), applicationUserRepository))
+            .addFilter(new JWTAuthenticationFilter(authenticationManager(), applicationUserDAO))
             .addFilter(new JWTAuthorizationFilter(authenticationManager()))
             // this disables session creation on Spring Security
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

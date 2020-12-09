@@ -3,7 +3,7 @@ package com.makers.pairingapp.security;
 import com.auth0.jwt.JWT;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.makers.pairingapp.dao.ApplicationUserRepository;
+import com.makers.pairingapp.dao.ApplicationUserDAO;
 import com.makers.pairingapp.model.ApplicationUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,11 +27,11 @@ import static com.makers.pairingapp.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
   private AuthenticationManager authenticationManager;
-  private ApplicationUserRepository applicationUserRepository;
+  private ApplicationUserDAO applicationUserDAO;
 
-  public JWTAuthenticationFilter(AuthenticationManager authenticationManager, ApplicationUserRepository applicationUserRepository) {
+  public JWTAuthenticationFilter(AuthenticationManager authenticationManager, ApplicationUserDAO applicationUserDAO) {
     this.authenticationManager = authenticationManager;
-    this.applicationUserRepository = applicationUserRepository;
+    this.applicationUserDAO = applicationUserDAO;
   }
 
   @Override
@@ -66,7 +66,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             "Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
     res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
     PrintWriter payload = res.getWriter();
-    ApplicationUser user = this.applicationUserRepository.findByUsername(((User) auth.getPrincipal()).getUsername());
+    ApplicationUser user = this.applicationUserDAO.findByUsername(((User) auth.getPrincipal()).getUsername());
     payload.print(user);
     payload.flush();
   }
