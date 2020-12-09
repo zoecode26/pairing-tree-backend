@@ -1,5 +1,7 @@
 package com.makers.pairingapp.model;
 
+import com.makers.pairingapp.dao.ApplicationUserDAO;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -31,11 +33,11 @@ public class Match {
 
     @ManyToOne
     @JoinColumn(name="user1_id")
-    private User user1;
+    private ApplicationUser user1;
 
     @ManyToOne
     @JoinColumn(name="user2_id")
-    private User user2;
+    private ApplicationUser user2;
 
     public Timestamp getStart_time() {
         return start_time;
@@ -67,4 +69,5 @@ public class Match {
                 ", user2=" + user2 +
                 '}';
     }
+    
 }

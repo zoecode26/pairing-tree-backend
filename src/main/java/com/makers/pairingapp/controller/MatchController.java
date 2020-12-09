@@ -1,7 +1,7 @@
 package com.makers.pairingapp.controller;
 
 import com.makers.pairingapp.dao.MatchDAO;
-import com.makers.pairingapp.dao.UserDAO;
+import com.makers.pairingapp.dao.ApplicationUserDAO;
 import com.makers.pairingapp.model.Match;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MatchController {
 
-    private final UserDAO userDAO;
+    private final ApplicationUserDAO applicationUserDAO;
     private final MatchDAO matchDAO;
 
-    public MatchController(UserDAO userDAO, MatchDAO matchDAO) {
-        this.userDAO = userDAO;
+    public MatchController(ApplicationUserDAO applicationUserDAO, MatchDAO matchDAO) {
+        this.applicationUserDAO = applicationUserDAO;
         this.matchDAO = matchDAO;
     }
 

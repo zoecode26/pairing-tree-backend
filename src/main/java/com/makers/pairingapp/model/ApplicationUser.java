@@ -11,6 +11,8 @@ public class ApplicationUser {
   private String username;
   private String password;
 
+//  NO CONSTRUCTOR????
+
   public long getId() {
     return id;
   }
@@ -30,6 +32,8 @@ public class ApplicationUser {
   public void setPassword(String password) {
     this.password = password;
   }
+
+  // NO EQUALS AND HASHCODE METHODS
 
   @Override
   public String toString() {
