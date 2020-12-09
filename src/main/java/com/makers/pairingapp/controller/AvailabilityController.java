@@ -1,9 +1,9 @@
 package com.makers.pairingapp.controller;
 
 import com.makers.pairingapp.dao.AvailabilityDAO;
-import com.makers.pairingapp.dao.UserDAO;
+import com.makers.pairingapp.dao.ApplicationUserDAO;
+import com.makers.pairingapp.model.ApplicationUser;
 import com.makers.pairingapp.model.Availability;
-import com.makers.pairingapp.model.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,11 +17,11 @@ import java.util.Optional;
 public class AvailabilityController {
 
     private final AvailabilityDAO availabilityDAO;
-    private final UserDAO userDAO;
+    private final ApplicationUserDAO applicationUserDAO;
 
-    public AvailabilityController(AvailabilityDAO availabilityDAO, UserDAO userDAO) {
+    public AvailabilityController(AvailabilityDAO availabilityDAO, ApplicationUserDAO applicationUserDAO) {
         this.availabilityDAO = availabilityDAO;
-        this.userDAO = userDAO;
+        this.applicationUserDAO = applicationUserDAO;
     }
 
     @GetMapping("/availabilities")
@@ -31,7 +31,7 @@ public class AvailabilityController {
     Availability newAvailability(@RequestBody Map<String, Object> body) {
         Availability newAvailability = new Availability();
         newAvailability.setStart_time(Timestamp.valueOf(body.get("start_time").toString()));
-        Optional<User> user = userDAO.findById(Long.parseLong(body.get("user_id").toString()));
+        Optional<ApplicationUser> user = applicationUserDAO.findById(Long.parseLong(body.get("user_id").toString()));
         return availabilityDAO.save(newAvailability);
     }
 

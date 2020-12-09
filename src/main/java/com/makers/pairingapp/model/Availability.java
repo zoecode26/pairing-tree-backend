@@ -15,7 +15,7 @@ public class Availability {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private User user;
+    private ApplicationUser applicationUser;
 
     public Availability(){}
 
