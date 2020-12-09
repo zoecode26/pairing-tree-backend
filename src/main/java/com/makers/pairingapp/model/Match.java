@@ -12,18 +12,12 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long user1_id;
-
-    private Long user2_id;
-
     private Timestamp start_time;
 
     public Match() {
     }
 
-    public Match(Long user1_id, Long user2_id, Timestamp start_time) {
-        this.user1_id = user1_id;
-        this.user2_id = user2_id;
+    public Match(Timestamp start_time) {
         this.start_time = start_time;
     }
 
@@ -42,22 +36,6 @@ public class Match {
     @ManyToOne
     @JoinColumn(name="user2_id")
     private User user2;
-
-//    public Long getUser1_id() {
-//        return user1_id;
-//    }
-//
-//    public void setUser1_id(Long user1_id) {
-//        this.user1_id = user1_id;
-//    }
-//
-//    public Long getUser2_id() {
-//        return user2_id;
-//    }
-//
-//    public void setUser2_id(Long user2_id) {
-//        this.user2_id = user2_id;
-//    }
 
     public Timestamp getStart_time() {
         return start_time;
@@ -84,9 +62,9 @@ public class Match {
     public String toString() {
         return "Match{" +
                 "id=" + id +
-                ", user1_id=" + user1_id +
-                ", user2_id=" + user2_id +
                 ", start_time=" + start_time +
+                ", user1=" + user1 +
+                ", user2=" + user2 +
                 '}';
     }
 }
