@@ -1,6 +1,8 @@
 package com.makers.pairingapp.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "applicationuser")
@@ -8,8 +10,20 @@ public class ApplicationUser {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
+  @Email
+  @NotEmpty
+  @Column(unique=true)
+  private String email;
+  @NotEmpty
+  @Column(columnDefinition = "varchar(100)")
   private String username;
+  @Column
+  @NotEmpty
   private String password;
+  @Column(columnDefinition = "boolean default false")
+  private Boolean active;
+
+
 
 //  NO CONSTRUCTOR????
 
