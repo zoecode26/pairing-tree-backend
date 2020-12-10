@@ -33,7 +33,7 @@ public class ApplicationUser {
 
   @Override
   public String toString() {
-    return "ApplicationUser{" +
+    return "{" +
             "id=" + id +
             ", username='" + username + '\'' +
             '}';
