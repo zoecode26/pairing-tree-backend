@@ -47,6 +47,22 @@ public class Match {
         this.start_time = start_time;
     }
 
+    public ApplicationUser getUser1() {
+        return user1;
+    }
+
+    public void setUser1(ApplicationUser user1) {
+        this.user1 = user1;
+    }
+
+    public ApplicationUser getUser2() {
+        return user2;
+    }
+
+    public void setUser2(ApplicationUser user2) {
+        this.user2 = user2;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,5 +85,6 @@ public class Match {
                 ", user2=" + user2 +
                 '}';
     }
+
     
 }
