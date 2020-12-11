@@ -10,20 +10,43 @@ public class ApplicationUser {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
+  //use username as our unique email feed because otherwise spring security throws a fit
   @Email
   @NotEmpty
   @Column(unique=true)
-  private String email;
-  @NotEmpty
-  @Column(columnDefinition = "varchar(100)")
   private String username;
+  @Column
+  private String fullName;
   @Column
   @NotEmpty
   private String password;
   @Column(columnDefinition = "boolean default false")
   private Boolean active;
 
+  public ApplicationUser() { }
 
+  public ApplicationUser(@Email @NotEmpty String username, String fullName, @NotEmpty String password, Boolean active) {
+    this.username = username;
+    this.fullName = fullName;
+    this.password = password;
+    this.active = active;
+  }
+
+  public String getFullName() {
+    return fullName;
+  }
+
+  public void setFullName(String fullName) {
+    this.fullName = fullName;
+  }
+
+  public Boolean getActive() {
+    return active;
+  }
+
+  public void setActive(Boolean active) {
+    this.active = active;
+  }
 
 //  NO CONSTRUCTOR????
 
