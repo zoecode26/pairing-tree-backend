@@ -17,11 +17,12 @@ public class UserController {
   public UserController(ApplicationUserDAO applicationUserDAO,
                         BCryptPasswordEncoder bCryptPasswordEncoder) {
     this.applicationUserDAO = applicationUserDAO;
-    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    this.bCryptPasswordEncoder = bCryptPasswordEncoder    ;
   }
 
   @PostMapping("/sign-up")
   public void signUp(@RequestBody ApplicationUser user) {
+    System.out.println("here");
     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     applicationUserDAO.save(user);
   }
