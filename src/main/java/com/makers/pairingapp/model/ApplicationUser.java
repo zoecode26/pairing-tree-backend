@@ -72,11 +72,14 @@ public class ApplicationUser {
 
   // NO EQUALS AND HASHCODE METHODS
 
+
   @Override
   public String toString() {
     return "{" +
             "id=" + id +
             ", username='" + username + '\'' +
+            ", fullName='" + fullName + '\'' +
+            ", active=" + active +
             '}';
   }
 }

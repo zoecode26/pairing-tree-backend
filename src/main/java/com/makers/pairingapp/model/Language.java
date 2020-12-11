@@ -12,12 +12,12 @@ public class Language {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String lang;
+    private String name;
 
     public Language(){}
 
-    public Language(String lang) {
-        this.lang = lang;
+    public Language(String name) {
+        this.name = name;
     }
 
     public Long getId() {
@@ -28,12 +28,12 @@ public class Language {
         this.id = id;
     }
 
-    public String getLang() {
-        return lang;
+    public String getName() {
+        return name;
     }
 
-    public void setLang(String lang) {
-        this.lang = lang;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class Language {
     public String toString() {
         return "Language{" +
                 "id=" + id +
-                ", lang='" + lang + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }
