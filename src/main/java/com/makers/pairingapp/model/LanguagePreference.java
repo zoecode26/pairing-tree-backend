@@ -10,6 +10,7 @@ public class LanguagePreference {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String skill;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -22,10 +23,18 @@ public class LanguagePreference {
     public LanguagePreference() {
     }
 
-    public LanguagePreference(Long id, ApplicationUser user, Language language) {
-        this.id = id;
+    public LanguagePreference(String skill, ApplicationUser user, Language language) {
+        this.skill = skill;
         this.user = user;
         this.language = language;
+    }
+
+    public String getSkill() {
+        return skill;
+    }
+
+    public void setSkill(String skill) {
+        this.skill = skill;
     }
 
     public Long getId() {
@@ -69,6 +78,7 @@ public class LanguagePreference {
     public String toString() {
         return "LanguagePreference{" +
                 "id=" + id +
+                ", skill='" + skill + '\'' +
                 ", user=" + user +
                 ", language=" + language +
                 '}';
