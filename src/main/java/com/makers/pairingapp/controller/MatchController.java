@@ -122,6 +122,9 @@ public class MatchController {
         System.out.println(orderedUsers);
 
         int skillGap = 3;
+        Long firstUserId = null;
+        Long secondUserId = null;
+        Long languageId = null;
         //Going through sorted list of user ids from least languages to most languages to pair those with less options first
         for (int i = 0; i < orderedUsers.size(); i++) {
             //Iterates over ordered users again to get one to pair with user first for loop is currently looking at
@@ -136,19 +139,44 @@ public class MatchController {
                             //If the list we're looking at contains out initial user and one other (as near to start of list as possible) who has selected the same language,
                             //they are paired!
                             if (entry.getValue().contains(orderedUsers.get(j))) {
-//                                Language language = languageDAO.findByName(entry.getKey());
-//                                List<LanguagePreference> preference = languagePreferenceDAO.findByUserIdAndLanguageId(orderedUsers.get(i), language.getId());
-                                System.out.println("PAIR: " + orderedUsers.get(i) + ", " + orderedUsers.get(j));
-                                System.out.println(entry.getKey());
+                                Language language = languageDAO.findByName(entry.getKey());
+                                LanguagePreference preferenceOne = languagePreferenceDAO.findByUserIdAndLanguageId(orderedUsers.get(i), language.getId());
+                                LanguagePreference preferenceTwo = languagePreferenceDAO.findByUserIdAndLanguageId(orderedUsers.get(j), language.getId());
+
+                                Integer newSkillGap = Math.abs(preferenceOne.getSkill() - preferenceTwo.getSkill());
+//                                System.out.println(preferenceOne.getSkill());
+//                                System.out.println(preferenceTwo.getSkill());
+//                                System.out.println(newSkillGap);
+
+                                if (newSkillGap < skillGap){
+                                    skillGap = newSkillGap;
+                                    firstUserId = orderedUsers.get(i);
+                                    secondUserId = orderedUsers.get(j);
+                                    languageId = language.getId();
+                                }
+//
+//                                System.out.println("PAIR: " + orderedUsers.get(i) + ", " + orderedUsers.get(j));
+//                                System.out.println(language);
 //                                System.out.println(preference);
-//                                orderedUsers.set(i, (long) 0);
-//                                orderedUsers.set(j, (long) 0);
+
                             }
                         }
                     }
                 }
             }
-            System.out.println("NEW USER");
+            System.out.println("USER 1: " + firstUserId);
+            System.out.println("USER 2: " + secondUserId);
+            System.out.println("LANGUAGE: " + languageId);
+            if (secondUserId == orderedUsers.get(orderedUsers.size()-1) || orderedUsers.size() == 1){
+                break;
+            }
+            else {
+                skillGap = 3;
+                orderedUsers.set(i, (long) 0);
+                if (orderedUsers.contains(secondUserId)) {
+                    orderedUsers.set(orderedUsers.indexOf(secondUserId), (long) 0);
+                }
+            }
         }
 
         System.out.println(languageUsers);

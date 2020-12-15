@@ -9,5 +9,5 @@ import java.util.List;
 public interface LanguagePreferenceDAO extends CrudRepository <LanguagePreference, Long>{
     List<LanguagePreference> findByUserId(Long user_id);
     List<LanguagePreference> findByLanguageId(Long language_id);
-    List<LanguagePreference> findByUserIdAndLanguageId(Long user_id, Long language_id);
+    LanguagePreference findByUserIdAndLanguageId(Long user_id, Long language_id);
 }

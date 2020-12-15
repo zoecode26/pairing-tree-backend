@@ -35,7 +35,7 @@ public class LanguagePreferenceController {
     }
 
     @PostMapping("/languagepreferences")
-    void newLanguagePreference(@RequestBody Map<String, String> body, Principal principal) {
+    void newLanguagePreference(@RequestBody Map<String, Integer> body, Principal principal) {
 
         System.out.println(principal);
         String email = principal.getName();
@@ -45,7 +45,7 @@ public class LanguagePreferenceController {
         System.out.println(body.entrySet());
 
 
-        for (Map.Entry<String, String> entry : body.entrySet()) {
+        for (Map.Entry<String, Integer> entry : body.entrySet()) {
             System.out.println(entry.getKey() + ":" + entry.getValue());
             Language language = languageDAO.findByName(entry.getKey());
             LanguagePreference newLanguagePreference = new LanguagePreference();
