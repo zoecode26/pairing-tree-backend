@@ -33,14 +33,5 @@ public class UserController {
     applicationUserDAO.save(user);
   }
 
-//  @PostMapping("/logout")
-//  public String logoutDo(HttpServletRequest request, HttpServletResponse response){
-//    SecurityContextHolder.clearContext();
-//    HttpSession session= request.getSession(false);
-//    if(session != null) {
-//      session.invalidate();
-//    }
-//    System.out.println("logging out maybe");
-//    return "logout";
-//  }
+
 }
