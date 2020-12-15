@@ -26,19 +26,5 @@ public class PairingAppApplication {
 		SpringApplication.run(PairingAppApplication.class, args);
 	}
 
-	@Bean
-	InitializingBean sendDatabase() {
-
-		return () -> {
-			languageDAO.save(new Language("java"));
-			languageDAO.save(new Language("python"));
-			languageDAO.save(new Language("javascript"));
-			languageDAO.save(new Language("C#"));
-			languageDAO.save(new Language("C"));
-			languageDAO.save(new Language("PHP"));
-			languageDAO.save(new Language("ruby"));
-			languageDAO.save(new Language("swift"));
-			languageDAO.save(new Language("go"));
-		};
-	}
 }
+
