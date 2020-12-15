@@ -35,13 +35,15 @@ public class LanguagePreferenceController {
     }
 
     @PostMapping("/languagepreferences")
-    LanguagePreference newLanguagePreference(@RequestBody Map<String, String> body, Principal principal) {
+    void newLanguagePreference(@RequestBody Map<String, String> body, Principal principal) {
 
         System.out.println(principal);
         String email = principal.getName();
         ApplicationUser user = applicationUserDAO.findByUsername(email);
 
         System.out.println(user);
+        System.out.println(body.entrySet());
+
 
         for (Map.Entry<String, String> entry : body.entrySet()) {
             System.out.println(entry.getKey() + ":" + entry.getValue());
@@ -52,10 +54,5 @@ public class LanguagePreferenceController {
             newLanguagePreference.setSkill(entry.getValue());
             languagePreferenceDAO.save(newLanguagePreference);
         }
-
-
-        LanguagePreference newLanguagePreference = new LanguagePreference();
-        return newLanguagePreference;
-
     }
 }
