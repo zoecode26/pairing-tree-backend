@@ -2,11 +2,17 @@ package com.makers.pairingapp.controller;
 
 import com.makers.pairingapp.dao.ApplicationUserDAO;
 import com.makers.pairingapp.model.ApplicationUser;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/users")
@@ -26,4 +32,15 @@ public class UserController {
     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     applicationUserDAO.save(user);
   }
+
+//  @PostMapping("/logout")
+//  public String logoutDo(HttpServletRequest request, HttpServletResponse response){
+//    SecurityContextHolder.clearContext();
+//    HttpSession session= request.getSession(false);
+//    if(session != null) {
+//      session.invalidate();
+//    }
+//    System.out.println("logging out maybe");
+//    return "logout";
+//  }
 }
