@@ -26,4 +26,5 @@ public class UserController {
     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     applicationUserDAO.save(user);
   }
+
 }

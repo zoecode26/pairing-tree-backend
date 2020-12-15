@@ -22,14 +22,38 @@ public class ApplicationUser {
   private String password;
   @Column(columnDefinition = "boolean default false")
   private Boolean active;
+  @Column
+  private String github;
+  @Column(columnDefinition = "boolean default false")
+  private Boolean profileComplete;
 
   public ApplicationUser() { }
 
-  public ApplicationUser(@Email @NotEmpty String username, String fullName, @NotEmpty String password, Boolean active) {
+
+
+  public ApplicationUser(@Email @NotEmpty String username, String fullName, @NotEmpty String password, Boolean active, String github, Boolean profileComplete) {
     this.username = username;
     this.fullName = fullName;
     this.password = password;
     this.active = active;
+    this.github = github;
+    this.profileComplete = profileComplete;
+  }
+
+  public Boolean getProfileComplete() {
+    return profileComplete;
+  }
+
+  public void setProfileComplete(Boolean profileComplete) {
+    this.profileComplete = profileComplete;
+  }
+
+  public String getGithub() {
+    return github;
+  }
+
+  public void setGithub(String github) {
+    this.github = github;
   }
 
   public String getFullName() {
@@ -80,6 +104,8 @@ public class ApplicationUser {
             ", username='" + username + '\'' +
             ", fullName='" + fullName + '\'' +
             ", active=" + active +
+            ", profileComplete=" + profileComplete +
+            ", github=" + github +
             '}';
   }
 }
