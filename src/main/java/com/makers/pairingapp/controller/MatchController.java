@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 @RestController
@@ -167,6 +168,18 @@ public class MatchController {
             System.out.println("USER 1: " + firstUserId);
             System.out.println("USER 2: " + secondUserId);
             System.out.println("LANGUAGE: " + languageId);
+
+            Match match = new Match();
+            ApplicationUser user1 = applicationUserDAO.findById(firstUserId).get();
+            ApplicationUser user2 = applicationUserDAO.findById(secondUserId).get();
+            Language language = languageDAO.findById(languageId).get();
+            match.setUser1(user1);
+            match.setUser2(user2);
+            match.setLanguage(language);
+            match.setStart_time(new Timestamp(System.currentTimeMillis()));
+            System.out.println(match);
+            matchDAO.save(match);
+
             if (secondUserId == orderedUsers.get(orderedUsers.size()-1) || orderedUsers.size() == 1){
                 break;
             }
