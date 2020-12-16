@@ -32,6 +32,10 @@ public class ApplicationUser {
   private String password;
   @Column(columnDefinition = "boolean default false")
   private Boolean active;
+  @Column
+  private String github;
+  @Column(columnDefinition = "boolean default false")
+  private Boolean profileComplete;
 
   @Column
   private String userProfileImageLink;
@@ -41,6 +45,20 @@ public class ApplicationUser {
 
   public ApplicationUser() { }
 
+
+
+
+  public ApplicationUser(@Email @NotEmpty String username, String fullName, @NotEmpty String password, Boolean active, String github, Boolean profileComplete) {
+
+    this.username = username;
+    this.fullName = fullName;
+    this.password = password;
+    this.userProfileImageLink = null; //
+    this.imageid = UUID.randomUUID();
+    this.active = active;
+    this.github = github;
+    this.profileComplete = profileComplete;
+  }
   public Optional<String> getUserProfileImageLink() {
     return Optional.ofNullable(userProfileImageLink);
   }
@@ -49,13 +67,20 @@ public class ApplicationUser {
     this.userProfileImageLink = userProfileImageLink;
   }
 
-  public ApplicationUser(@Email @NotEmpty String username, String fullName, @NotEmpty String password,  Boolean active) {
-    this.username = username;
-    this.fullName = fullName;
-    this.password = password;
-    this.userProfileImageLink = null; //
-    this.imageid = UUID.randomUUID();
-    this.active = active;
+  public Boolean getProfileComplete() {
+    return profileComplete;
+  }
+
+  public void setProfileComplete(Boolean profileComplete) {
+    this.profileComplete = profileComplete;
+  }
+
+  public String getGithub() {
+    return github;
+  }
+
+  public void setGithub(String github) {
+    this.github = github;
   }
 
   public String getFullName() {
@@ -76,7 +101,6 @@ public class ApplicationUser {
 
 
 
-//  NO CONSTRUCTOR????
   private long getId(){
     return id;
   }
@@ -105,19 +129,23 @@ public class ApplicationUser {
     this.password = password;
   }
 
-  // NO EQUALS AND HASHCODE METHODS
-
 
   @Override
   public String toString() {
-    return "{" +
+    return "ApplicationUser{" +
             "id=" + id +
+            ", imageid=" + imageid +
             ", username='" + username + '\'' +
             ", fullName='" + fullName + '\'' +
-            ", active=" +  active + '\''
-            + "imageid=" + imageid +'\''
-            + "userprofileimagelink=" + userProfileImageLink +'}';
+            ", password='" + password + '\'' +
+            ", active=" + active +
+            ", github='" + github + '\'' +
+            ", profileComplete=" + profileComplete +
+            ", userProfileImageLink='" + userProfileImageLink + '\'' +
+            '}';
   }
+
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -134,6 +162,7 @@ public class ApplicationUser {
   @Override
   public int hashCode() {
     return Objects.hash(id, username, fullName, active, userProfileImageLink);
+
   }
 }
 

@@ -39,12 +39,24 @@ public class Match {
     @JoinColumn(name="user2_id")
     private ApplicationUser user2;
 
+    @ManyToOne
+    @JoinColumn(name="language_id")
+    private Language language;
+
     public Timestamp getStart_time() {
         return start_time;
     }
 
     public void setStart_time(Timestamp start_time) {
         this.start_time = start_time;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 
     public ApplicationUser getUser1() {
@@ -83,8 +95,7 @@ public class Match {
                 ", start_time=" + start_time +
                 ", user1=" + user1 +
                 ", user2=" + user2 +
+                ", language=" + language +
                 '}';
     }
-
-    
 }
