@@ -4,6 +4,7 @@ import com.makers.pairingapp.dao.ApplicationUserDAO;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,11 +17,14 @@ public class Match {
 
     private Timestamp start_time;
 
+    private Boolean complete;
+
     public Match() {
     }
 
-    public Match(Timestamp start_time) {
+    public Match(Timestamp start_time, Boolean complete) {
         this.start_time = start_time;
+        this.complete = complete;
     }
 
     public Long getId() {
@@ -29,6 +33,14 @@ public class Match {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean getComplete() {
+        return complete;
+    }
+
+    public void setComplete(Boolean complete) {
+        this.complete = complete;
     }
 
     @ManyToOne
@@ -93,6 +105,7 @@ public class Match {
         return "Match{" +
                 "id=" + id +
                 ", start_time=" + start_time +
+                ", complete=" + complete +
                 ", user1=" + user1 +
                 ", user2=" + user2 +
                 ", language=" + language +
