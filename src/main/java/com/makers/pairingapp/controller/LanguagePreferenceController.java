@@ -6,12 +6,10 @@ import com.makers.pairingapp.dao.LanguagePreferenceDAO;
 import com.makers.pairingapp.model.ApplicationUser;
 import com.makers.pairingapp.model.Language;
 import com.makers.pairingapp.model.LanguagePreference;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -31,6 +29,11 @@ public class LanguagePreferenceController {
     @GetMapping("/languagepreferences")
     Iterable<LanguagePreference> all() {
         return languagePreferenceDAO.findAll();
+    }
+
+    @GetMapping("/languagepreferences/{user_id}")
+    List<LanguagePreference> all(@PathVariable(value = "user_id") ApplicationUser user) {
+        return languagePreferenceDAO.findByUserId(user.getId());
     }
 
     @PostMapping("/languagepreferences")
