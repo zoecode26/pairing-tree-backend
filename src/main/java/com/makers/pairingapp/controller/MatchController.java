@@ -38,9 +38,9 @@ public class MatchController {
     }
 
     @PostMapping("/matches/complete/{match_id}")
-    void completeMatch(@PathVariable(value="match_id") Match match) {
-//        match.setComplete(true);
-//        matchDAO.save(match);
+    void completeMatch(@PathVariable(value = "match_id") Match match) {
+        match.setComplete(true);
+        matchDAO.save(match);
     }
 
 
@@ -78,69 +78,61 @@ public class MatchController {
 
 
         List<Long> paired = new ArrayList<Long>();
-            for (int x = 0; x < potentialPairs.size(); x++){
-                Boolean done = false;
+        for (int x = 0; x < potentialPairs.size(); x++){
+            Boolean done = false;
 
-                    for (int y = 0; y < potentialPairs.get(x).size(); y++) {
-                        LanguagePreference preferenceOne = languagePreferenceDAO.findByUserIdAndLanguageId(potentialPairs.get(x).get(y).get(1), potentialPairs.get(x).get(y).get(0));
-                        LanguagePreference preferenceTwo = languagePreferenceDAO.findByUserIdAndLanguageId(potentialPairs.get(x).get(y).get(2), potentialPairs.get(x).get(y).get(0));
+            for (int y = 0; y < potentialPairs.get(x).size(); y++) {
+                LanguagePreference preferenceOne = languagePreferenceDAO.findByUserIdAndLanguageId(potentialPairs.get(x).get(y).get(1), potentialPairs.get(x).get(y).get(0));
+                LanguagePreference preferenceTwo = languagePreferenceDAO.findByUserIdAndLanguageId(potentialPairs.get(x).get(y).get(2), potentialPairs.get(x).get(y).get(0));
 
-                        Integer newSkillGap = Math.abs(preferenceOne.getSkill() - preferenceTwo.getSkill());
+                Integer newSkillGap = Math.abs(preferenceOne.getSkill() - preferenceTwo.getSkill());
 
-                        if (newSkillGap < skillGap) {
-                            if (!(paired.contains(potentialPairs.get(x).get(y).get(1)) || paired.contains(potentialPairs.get(x).get(y).get(2)))) {
-                                skillGap = newSkillGap;
-                                firstUserId = potentialPairs.get(x).get(y).get(1);
-                                secondUserId = potentialPairs.get(x).get(y).get(2);
-                                languageId = potentialPairs.get(x).get(y).get(0);
-                            } else {
-                                done = true;
-                            }
-                        }
-                    }
-            
-            if (secondUserId == orderedUsers.get(orderedUsers.size()-1) || orderedUsers.size() == 1){
-                break;
-            }
-            else {
-                skillGap = 3;
-                orderedUsers.set(i, (long) 0);
-                if (orderedUsers.contains(secondUserId)) {
-                    orderedUsers.set(orderedUsers.indexOf(secondUserId), (long) 0);
-                    if (done == false) {
-                        System.out.println("NEW PAIRING: " + firstUserId + ", " + secondUserId);
-                        skillGap = 3;
-                        paired.add(firstUserId);
-                        paired.add(secondUserId);
-
-                        System.out.println("Paired: " + paired);
-                        Match match = new Match();
-                        ApplicationUser user1 = applicationUserDAO.findById(firstUserId).get();
-                        ApplicationUser user2 = applicationUserDAO.findById(secondUserId).get();
-                        Language language = languageDAO.findById(languageId).get();
-                        match.setUser1(user1);
-                        match.setUser2(user2);
-                        match.setLanguage(language);
-                        match.setComplete(false);
-                        match.setStart_time(new Timestamp(System.currentTimeMillis()));
-                        System.out.println("match in db:" + match);
-                        matchDAO.save(match);
-                      
-                        Message introMessage = new Message();
-                        introMessage.setContent("This is an automated message from the admin team. Please contact each other to arrange a convenient time for your pairing session. Have fun!");
-                        introMessage.setSender(user1);
-                        introMessage.setReceiver(user2);
-                        introMessage.setTime_sent(new Timestamp(System.currentTimeMillis()));
-                        introMessage.setViewed(false);
-                        messageDAO.save(introMessage);
-                    }
-
-                    if (paired.size() == orderedUsers.size() || paired.size() == orderedUsers.size()-1){
-                        break;
+                if (newSkillGap < skillGap) {
+                    if (!(paired.contains(potentialPairs.get(x).get(y).get(1)) || paired.contains(potentialPairs.get(x).get(y).get(2)))) {
+                        skillGap = newSkillGap;
+                        firstUserId = potentialPairs.get(x).get(y).get(1);
+                        secondUserId = potentialPairs.get(x).get(y).get(2);
+                        languageId = potentialPairs.get(x).get(y).get(0);
+                    } else {
+                        done = true;
                     }
                 }
             }
+
+            if (done == false) {
+                System.out.println("NEW PAIRING: " + firstUserId + ", " + secondUserId);
+                skillGap = 3;
+                paired.add(firstUserId);
+                paired.add(secondUserId);
+
+                System.out.println("Paired: " + paired);
+                Match match = new Match();
+                ApplicationUser user1 = applicationUserDAO.findById(firstUserId).get();
+                ApplicationUser user2 = applicationUserDAO.findById(secondUserId).get();
+                Language language = languageDAO.findById(languageId).get();
+                match.setUser1(user1);
+                match.setUser2(user2);
+                match.setLanguage(language);
+                match.setComplete(false);
+                match.setStart_time(new Timestamp(System.currentTimeMillis()));
+                System.out.println("match in db:" + match);
+                matchDAO.save(match);
+
+                Message introMessage = new Message();
+                introMessage.setContent("This is an automated message from the admin team. Please contact each other to arrange a convenient time for your pairing session. Have fun!");
+                introMessage.setSender(user1);
+                introMessage.setReceiver(user2);
+                introMessage.setTime_sent(new Timestamp(System.currentTimeMillis()));
+                introMessage.setViewed(false);
+                messageDAO.save(introMessage);
+                System.out.println(introMessage);
+
+            }
+
+            if (paired.size() == orderedUsers.size() || paired.size() == orderedUsers.size()-1){
+                break;
+            }
         }
-
-
+    }
+}
 
