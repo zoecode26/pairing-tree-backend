@@ -1,24 +1,24 @@
 package com.makers.pairingapp.model;
 
+import com.makers.pairingapp.dao.ApplicationUserDAO;
 import com.makers.pairingapp.dao.LanguageDAO;
 import com.makers.pairingapp.dao.LanguagePreferenceDAO;
 import com.makers.pairingapp.dao.MatchDAO;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MatchingAlgorithm {
 
     private final MatchDAO matchDAO;
     private final LanguageDAO languageDAO;
     private final LanguagePreferenceDAO languagePreferenceDAO;
+    private final ApplicationUserDAO applicationUserDAO;
 
-    public MatchingAlgorithm(MatchDAO matchDAO, LanguageDAO languageDAO, LanguagePreferenceDAO languagePreferenceDAO) {
+    public MatchingAlgorithm(MatchDAO matchDAO, LanguageDAO languageDAO, LanguagePreferenceDAO languagePreferenceDAO, ApplicationUserDAO applicationUserDAO) {
         this.matchDAO = matchDAO;
         this.languageDAO = languageDAO;
         this.languagePreferenceDAO = languagePreferenceDAO;
+        this.applicationUserDAO = applicationUserDAO;
     }
 
 
@@ -70,7 +70,7 @@ public class MatchingAlgorithm {
         return allPairs;
     }
 
-    public List<Long> languageSort(){
+    public List<Long> languageSort() {
         //Gets list of all language preferences from DAO
         Iterable<LanguagePreference> languagePreferences = languagePreferenceDAO.findAll();
         //Sets up hash to hold id of each user and the amount of languages they selected as their preferences
@@ -104,4 +104,49 @@ public class MatchingAlgorithm {
 
         return orderedUsers;
     }
+
+
+    public HashMap<String, List<Long>> makeLanguageHash (List<Long>orderedUsers) {
+        HashMap<String, List<Long>> languageUsers = new HashMap<>();
+
+
+        //Goes through users in order of least to most languages
+        for (int i = 0; i < orderedUsers.size(); i++) {
+            //Gets the user currently being looked at and stores it in currentUser
+            Optional<ApplicationUser> currentUser = applicationUserDAO.findById(orderedUsers.get(i));
+            //Grabs the language preferences of that user and stores it in list
+            List<LanguagePreference> currentUserPreferences = languagePreferenceDAO.findByUserId(currentUser.get().getId());
+
+            //Iterates over all languages the user selected
+            for (int j = 0; j < currentUserPreferences.size(); j++) {
+                //Gets the id of the language currently being looked at from the users selections
+                Long currentLanguageId = currentUserPreferences.get(j).getLanguage().getId();
+                //Gets all the preferences made by all users for this language
+                List<LanguagePreference> preferencesForLanguage = languagePreferenceDAO.findByLanguageId(currentLanguageId);
+
+                //Iterates over all the preferences made for a chosen language by all users (this will be a language selected by one
+                // of the users that needs to be paired)
+                for (int k = 0; k < preferencesForLanguage.size(); k++) {
+                    //Gets the name of the language and assigns it to key
+                    String key = preferencesForLanguage.get(k).getLanguage().getName();
+                    //Gets the id of the user who had this language preference and assigns it to value
+                    Long value = preferencesForLanguage.get(k).getUser().getId();
+
+                    //If the language already has some users listed under it, the id of the new user that has selected this language is
+                    //added to the array of the value
+
+                    //Otherwise, a blank array is created, the user is added and then this is set as the value of a new entry in the hash
+                    if (languageUsers.containsKey(key)) {
+                        languageUsers.get(key).add(value);
+                    } else {
+                        List<Long> temp = new ArrayList<Long>();
+                        temp.add(value);
+                        languageUsers.put(key, temp);
+                    }
+                }
+            }
+        }
+        return languageUsers;
+    }
+
 }
