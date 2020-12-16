@@ -67,7 +67,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
     PrintWriter payload = res.getWriter();
     ApplicationUser user = this.applicationUserDAO.findByUsername(((User) auth.getPrincipal()).getUsername());
-    payload.print(user);
+    payload.print(user.getId());
     payload.flush();
   }
 }
