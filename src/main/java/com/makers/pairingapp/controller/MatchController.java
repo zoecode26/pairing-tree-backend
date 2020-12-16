@@ -1,11 +1,14 @@
 package com.makers.pairingapp.controller;
 
+
+import com.makers.pairingapp.dao.*;
 import com.makers.pairingapp.dao.LanguageDAO;
 import com.makers.pairingapp.dao.LanguagePreferenceDAO;
 import com.makers.pairingapp.dao.MatchDAO;
 import com.makers.pairingapp.dao.ApplicationUserDAO;
 import com.makers.pairingapp.model.*;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,18 +22,27 @@ public class MatchController {
     private final MatchDAO matchDAO;
     private final LanguagePreferenceDAO languagePreferenceDAO;
     private final LanguageDAO languageDAO;
+    private final MessageDAO messageDAO;
 
-    public MatchController(ApplicationUserDAO applicationUserDAO, MatchDAO matchDAO, LanguagePreferenceDAO languagePreferenceDAO, LanguageDAO languageDAO) {
+    public MatchController(ApplicationUserDAO applicationUserDAO, MatchDAO matchDAO, LanguagePreferenceDAO languagePreferenceDAO, LanguageDAO languageDAO, MessageDAO messageDAO) {
         this.applicationUserDAO = applicationUserDAO;
         this.matchDAO = matchDAO;
         this.languagePreferenceDAO = languagePreferenceDAO;
         this.languageDAO = languageDAO;
+        this.messageDAO = messageDAO;
     }
 
     @GetMapping("/matches")
     Iterable<Match> all() {
         return matchDAO.findAll();
     }
+
+    @PostMapping("/matches/complete/{match_id}")
+    void completeMatch(@PathVariable(value="match_id") Match match) {
+//        match.setComplete(true);
+//        matchDAO.save(match);
+    }
+
 
     @PostMapping("/matches")
     public void makeMatches() {
@@ -86,7 +98,15 @@ public class MatchController {
                             }
                         }
                     }
-
+            
+            if (secondUserId == orderedUsers.get(orderedUsers.size()-1) || orderedUsers.size() == 1){
+                break;
+            }
+            else {
+                skillGap = 3;
+                orderedUsers.set(i, (long) 0);
+                if (orderedUsers.contains(secondUserId)) {
+                    orderedUsers.set(orderedUsers.indexOf(secondUserId), (long) 0);
                     if (done == false) {
                         System.out.println("NEW PAIRING: " + firstUserId + ", " + secondUserId);
                         skillGap = 3;
@@ -105,6 +125,14 @@ public class MatchController {
                         match.setStart_time(new Timestamp(System.currentTimeMillis()));
                         System.out.println("match in db:" + match);
                         matchDAO.save(match);
+                      
+                        Message introMessage = new Message();
+                        introMessage.setContent("This is an automated message from the admin team. Please contact each other to arrange a convenient time for your pairing session. Have fun!");
+                        introMessage.setSender(user1);
+                        introMessage.setReceiver(user2);
+                        introMessage.setTime_sent(new Timestamp(System.currentTimeMillis()));
+                        introMessage.setViewed(false);
+                        messageDAO.save(introMessage);
                     }
 
                     if (paired.size() == orderedUsers.size() || paired.size() == orderedUsers.size()-1){
