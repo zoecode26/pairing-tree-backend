@@ -10,6 +10,11 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static ch.qos.logback.core.joran.spi.ConsoleTarget.findByName;
+
 
 @SpringBootApplication
 public class PairingAppApplication {
@@ -25,6 +30,22 @@ public class PairingAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PairingAppApplication.class, args);
 	}
+
+
+	@Bean
+	InitializingBean sendDatabase() {
+		return () -> {
+			String[] languages = new String[]{"java", "python", "ruby", "javascript", "C#", "C", "PHP", "swift", "go"};
+
+			for (String language: languages) {
+				if (languageDAO.findByName(language) == null) {
+					languageDAO.save(new Language(language));
+				}
+			}
+		};
+	}
+
+
 
 }
 
