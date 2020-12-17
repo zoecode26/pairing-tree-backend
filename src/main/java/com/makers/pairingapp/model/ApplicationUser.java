@@ -15,11 +15,6 @@ public class ApplicationUser {
   private long id;
 
 
-
-  //@GeneratedValue(strategy = GenerationType.AUTO)
-  //@Column(name="id", insertable = false, updatable = false, nullable = false)
-  private UUID imageid;
-
   //use username as our unique email feed because otherwise spring security throws a fit
   @Email
   @NotEmpty
@@ -37,35 +32,19 @@ public class ApplicationUser {
   @Column(columnDefinition = "boolean default false")
   private Boolean profileComplete;
 
-  @Column
-  private String userProfileImageLink;
-
-
-
 
   public ApplicationUser() { }
 
 
-
-
   public ApplicationUser(@Email @NotEmpty String username, String fullName, @NotEmpty String password, Boolean active, String github, Boolean profileComplete) {
-
     this.username = username;
     this.fullName = fullName;
     this.password = password;
-    this.userProfileImageLink = null; //
-    this.imageid = UUID.randomUUID();
     this.active = active;
     this.github = github;
     this.profileComplete = profileComplete;
   }
-  public Optional<String> getUserProfileImageLink() {
-    return Optional.ofNullable(userProfileImageLink);
-  }
 
-  public void setUserProfileImageLink(String userProfileImageLink) {
-    this.userProfileImageLink = userProfileImageLink;
-  }
 
   public Boolean getProfileComplete() {
     return profileComplete;
@@ -99,17 +78,9 @@ public class ApplicationUser {
     this.active = active;
   }
 
-
-
-  private long getId(){
+  public long getId(){
     return id;
   }
-  public UUID getimageId() {
-    return imageid;
-  }
-
-  public UUID getUserProfileId() { return imageid; }
-
 
     public String getUsername() {
     return username;
@@ -134,35 +105,14 @@ public class ApplicationUser {
   public String toString() {
     return "ApplicationUser{" +
             "id=" + id +
-            ", imageid=" + imageid +
             ", username='" + username + '\'' +
             ", fullName='" + fullName + '\'' +
             ", password='" + password + '\'' +
             ", active=" + active +
             ", github='" + github + '\'' +
             ", profileComplete=" + profileComplete +
-            ", userProfileImageLink='" + userProfileImageLink + '\'' +
             '}';
   }
 
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ApplicationUser that = (ApplicationUser) o;
-    return Objects.equals(id, that.id) &&
-            Objects.equals(username, that.username) &&
-            Objects.equals(fullName, that.fullName) &&
-            Objects.equals(active, that.active) &&
-            Objects.equals(imageid, that.imageid) &&
-            Objects.equals(userProfileImageLink, that.userProfileImageLink);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, username, fullName, active, userProfileImageLink);
-
-  }
 }
 
