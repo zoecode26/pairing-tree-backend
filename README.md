@@ -20,7 +20,7 @@ Check out the frontend: <a href="https://github.com/Duncan-7/pairing-app-fronten
 
 Here's the database schema:
 
-[comment]: <> (<img src="images/db_schema_updated.png" width="700" height="500">)
+<img src="images/db_schema_updated.png" width="700" height="500">
 
 ### Features
 
