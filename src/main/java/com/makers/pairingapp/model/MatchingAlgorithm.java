@@ -86,10 +86,13 @@ public class MatchingAlgorithm {
 
             //If the user doesn't exist yet, their value is set to one to count the first language encountered and from
             //then on will be incremented using the code in the if statement.
-            if (languageCount.containsKey(key)) {
-                languageCount.put(key, languageCount.get(key) + 1);
-            } else {
-                languageCount.put(key, 1);
+            ApplicationUser currentUser = applicationUserDAO.findById(key).get();
+            if (currentUser.getActive()) {
+                if (languageCount.containsKey(key)) {
+                    languageCount.put(key, languageCount.get(key) + 1);
+                } else {
+                    languageCount.put(key, 1);
+                }
             }
         }
 
