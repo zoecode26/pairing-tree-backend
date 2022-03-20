@@ -1,19 +1,24 @@
 package com.makers.pairingapp.controller;
 
-
-import com.makers.pairingapp.dao.*;
+import com.makers.pairingapp.dao.ApplicationUserDAO;
 import com.makers.pairingapp.dao.LanguageDAO;
 import com.makers.pairingapp.dao.LanguagePreferenceDAO;
 import com.makers.pairingapp.dao.MatchDAO;
-import com.makers.pairingapp.dao.ApplicationUserDAO;
-import com.makers.pairingapp.model.*;
+import com.makers.pairingapp.dao.MessageDAO;
+import com.makers.pairingapp.model.ApplicationUser;
+import com.makers.pairingapp.model.Language;
+import com.makers.pairingapp.model.LanguagePreference;
+import com.makers.pairingapp.model.Match;
+import com.makers.pairingapp.model.MatchingAlgorithm;
+import com.makers.pairingapp.model.Message;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class MatchController {
@@ -43,10 +48,8 @@ public class MatchController {
         matchDAO.save(match);
     }
 
-
     @PostMapping("/matches")
     public void makeMatches() {
-
         //Setting all matches already in db table to complete
         Iterable<Match> matches = matchDAO.findAll();
 
@@ -54,7 +57,6 @@ public class MatchController {
             match.setComplete(true);
             matchDAO.save(match);
         }
-
 
         MatchingAlgorithm algorithm = new MatchingAlgorithm(matchDAO, languageDAO, languagePreferenceDAO, applicationUserDAO);
 

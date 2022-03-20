@@ -6,11 +6,10 @@ import com.makers.pairingapp.dao.LanguagePreferenceDAO;
 import com.makers.pairingapp.model.ApplicationUser;
 import com.makers.pairingapp.model.Language;
 import com.makers.pairingapp.model.LanguagePreference;
-import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class LanguagePreferenceController {
@@ -48,7 +47,6 @@ public class LanguagePreferenceController {
 
 
         for (Map.Entry<String, Integer> entry : body.entrySet()) {
-            System.out.println(entry.getKey() + ":" + entry.getValue());
             Language language = languageDAO.findByName(entry.getKey());
             LanguagePreference newLanguagePreference = new LanguagePreference();
             newLanguagePreference.setUser(user);

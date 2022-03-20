@@ -1,11 +1,13 @@
 package com.makers.pairingapp.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
 
 @Entity
 @Table(name = "applicationuser")
@@ -14,8 +16,6 @@ public class ApplicationUser {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-
-  //use username as our unique email feed because otherwise spring security throws a fit
   @Email
   @NotEmpty
   @Column(unique=true)
@@ -32,9 +32,7 @@ public class ApplicationUser {
   @Column(columnDefinition = "boolean default false")
   private Boolean profileComplete;
 
-
   public ApplicationUser() { }
-
 
   public ApplicationUser(@Email @NotEmpty String username, String fullName, @NotEmpty String password, Boolean active, String github, Boolean profileComplete) {
     this.username = username;
@@ -44,7 +42,6 @@ public class ApplicationUser {
     this.github = github;
     this.profileComplete = profileComplete;
   }
-
 
   public Boolean getProfileComplete() {
     return profileComplete;
@@ -82,11 +79,9 @@ public class ApplicationUser {
     return id;
   }
 
-    public String getUsername() {
+  public String getUsername() {
     return username;
   }
-
-
 
   public void setUsername(String username) {
     this.username = username;
@@ -113,6 +108,5 @@ public class ApplicationUser {
             ", profileComplete=" + profileComplete +
             '}';
   }
-
 }
 

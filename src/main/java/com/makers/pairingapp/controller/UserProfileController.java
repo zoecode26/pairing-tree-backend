@@ -6,12 +6,11 @@ import com.makers.pairingapp.dao.LanguagePreferenceDAO;
 import com.makers.pairingapp.model.ApplicationUser;
 import com.makers.pairingapp.model.Language;
 import com.makers.pairingapp.model.LanguagePreference;
+import java.util.Map;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 public class UserProfileController {
@@ -32,9 +31,7 @@ public class UserProfileController {
             if(entry.getKey() == "github") {
                 continue;
             }
-            System.out.println(entry.getKey() + ":" + entry.getValue());
             Language language = languageDAO.findByName(entry.getKey());
-            System.out.println("TEST: "+language);
             LanguagePreference newLanguagePreference = new LanguagePreference();
             newLanguagePreference.setUser(user);
             newLanguagePreference.setLanguage(language);
