@@ -11,12 +11,12 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "language_preferences")
-public class LanguagePreference {
+public class LanguagePreference implements Comparable<LanguagePreference>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer skill;
+    private int skill;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -29,17 +29,17 @@ public class LanguagePreference {
     public LanguagePreference() {
     }
 
-    public LanguagePreference(Integer skill, ApplicationUser user, Language language) {
+    public LanguagePreference(int skill, ApplicationUser user, Language language) {
         this.skill = skill;
         this.user = user;
         this.language = language;
     }
 
-    public Integer getSkill() {
+    public int getSkill() {
         return skill;
     }
 
-    public void setSkill(Integer skill) {
+    public void setSkill(int skill) {
         this.skill = skill;
     }
 
@@ -88,5 +88,17 @@ public class LanguagePreference {
                 ", user=" + user +
                 ", language=" + language +
                 '}';
+    }
+
+    @Override
+    public int compareTo(LanguagePreference o) {
+        System.out.println("Using custom comparison");
+        if (o.getSkill() > this.getSkill()) {
+            return -1;
+        } else if (o.getSkill() < this.getSkill()) {
+            return 1;
+        }
+
+        return 0;
     }
 }

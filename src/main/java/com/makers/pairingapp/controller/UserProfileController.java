@@ -18,17 +18,19 @@ public class UserProfileController {
     private final LanguageDAO languageDAO;
     private final ApplicationUserDAO applicationUserDAO;
 
-    public UserProfileController(LanguagePreferenceDAO languagePreferenceDAO, LanguageDAO languageDAO, ApplicationUserDAO applicationUserDAO) {
+    public UserProfileController(LanguagePreferenceDAO languagePreferenceDAO, LanguageDAO languageDAO,
+                                 ApplicationUserDAO applicationUserDAO) {
         this.languagePreferenceDAO = languagePreferenceDAO;
         this.languageDAO = languageDAO;
         this.applicationUserDAO = applicationUserDAO;
     }
 
     @PostMapping("/profile/{user_id}")
-    ApplicationUser updateProfile(@PathVariable(value="user_id") ApplicationUser user, @RequestBody Map<String, String> body) {
+    ApplicationUser updateProfile(@PathVariable(value="user_id") ApplicationUser user,
+                                  @RequestBody Map<String, String> body) {
         user.setGithub(body.get("github"));
         for (Map.Entry<String, String> entry : body.entrySet()) {
-            if(entry.getKey() == "github") {
+            if(entry.getKey().equals("github")) {
                 continue;
             }
             Language language = languageDAO.findByName(entry.getKey());
@@ -44,7 +46,8 @@ public class UserProfileController {
     }
 
     @PostMapping("/profile/toggle-active/{user_id}")
-    ApplicationUser toggleActive(@PathVariable(value="user_id") ApplicationUser user, @RequestBody Map<String, Boolean> body) {
+    ApplicationUser toggleActive(@PathVariable(value="user_id") ApplicationUser user, @RequestBody Map<String,
+                                 Boolean> body) {
         user.setActive(body.get("active"));
         return applicationUserDAO.save(user);
     }

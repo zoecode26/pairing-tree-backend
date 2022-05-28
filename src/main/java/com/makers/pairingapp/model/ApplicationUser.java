@@ -34,7 +34,8 @@ public class ApplicationUser {
 
   public ApplicationUser() { }
 
-  public ApplicationUser(@Email @NotEmpty String username, String fullName, @NotEmpty String password, Boolean active, String github, Boolean profileComplete) {
+  public ApplicationUser(@Email @NotEmpty String username, String fullName, @NotEmpty String password, Boolean active,
+                         String github, Boolean profileComplete) {
     this.username = username;
     this.fullName = fullName;
     this.password = password;
@@ -94,7 +95,6 @@ public class ApplicationUser {
   public void setPassword(String password) {
     this.password = password;
   }
-
 
   @Override
   public String toString() {

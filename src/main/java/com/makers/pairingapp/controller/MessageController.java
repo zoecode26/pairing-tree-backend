@@ -30,15 +30,11 @@ public class MessageController {
   //get all messages where the current user is either the sender or receiver
   @GetMapping("/messages/{user_id}")
   List<Message> getMessages(@PathVariable(value="user_id") ApplicationUser user, Principal principal) {
-    System.out.println(principal);
-    //user principal to confirm the user is only able to receive messages they're involved in
-//    String email = principal.getName();
-//    ApplicationUser user = applicationUserDAO.findById();
-    //find all the messages where the logged in user is either the sender or receiver
+    //find all the messages where the logged-in user is either the sender or receiver
     List<Message> sentMessages = messageDAO.findBySenderId(user.getId());
     List<Message> receivedMessages = messageDAO.findByReceiverId(user.getId());
     //combine those together and return to the frontend
-    List<Message> toReturn = new ArrayList<Message>();
+    List<Message> toReturn = new ArrayList<>();
     toReturn.addAll(sentMessages);
     toReturn.addAll(receivedMessages);
     return toReturn;

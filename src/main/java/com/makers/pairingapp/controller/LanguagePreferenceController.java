@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class LanguagePreferenceController {
-
     private final LanguagePreferenceDAO languagePreferenceDAO;
     private final LanguageDAO languageDAO;
     private final ApplicationUserDAO applicationUserDAO;
 
-
-    public LanguagePreferenceController(LanguagePreferenceDAO languagePreferenceDAO, LanguageDAO languageDAO, ApplicationUserDAO applicationUserDAO) {
+    public LanguagePreferenceController(LanguagePreferenceDAO languagePreferenceDAO, LanguageDAO languageDAO,
+                                        ApplicationUserDAO applicationUserDAO) {
         this.languagePreferenceDAO = languagePreferenceDAO;
         this.languageDAO = languageDAO;
         this.applicationUserDAO = applicationUserDAO;
@@ -37,14 +36,8 @@ public class LanguagePreferenceController {
 
     @PostMapping("/languagepreferences")
     void newLanguagePreference(@RequestBody Map<String, Integer> body, Principal principal) {
-
-        System.out.println(principal);
         String email = principal.getName();
         ApplicationUser user = applicationUserDAO.findByUsername(email);
-
-        System.out.println(user);
-        System.out.println(body.entrySet());
-
 
         for (Map.Entry<String, Integer> entry : body.entrySet()) {
             Language language = languageDAO.findByName(entry.getKey());
