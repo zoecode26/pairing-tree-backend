@@ -20,6 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("Login route checking here");
         ApplicationUser applicationUser = applicationUserDAO.findByUsername(username);
         if (applicationUser == null) {
             throw new UsernameNotFoundException(username);
