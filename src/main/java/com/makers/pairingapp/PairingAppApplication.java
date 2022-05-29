@@ -22,20 +22,5 @@ public class PairingAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PairingAppApplication.class, args);
 	}
-	@Bean
-	InitializingBean sendDatabase() {
-		return () -> {
-			String[] languages = new String[]{"java", "python", "ruby", "javascript", "C#", "C", "PHP", "swift", "go"};
-
-			for (String language: languages) {
-				if (languageDAO.findByName(language) == null) {
-					languageDAO.save(new Language(language));
-				}
-			}
-		};
-	}
-
-
-
 }
 
