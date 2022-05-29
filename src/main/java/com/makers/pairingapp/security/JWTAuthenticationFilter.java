@@ -34,6 +34,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
+        System.out.println("Attempting JWT auth");
         try {
             ApplicationUser creds = new ObjectMapper()
                     .readValue(req.getInputStream(), ApplicationUser.class);
@@ -54,7 +55,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse res,
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
-
+        System.out.println("Successful JWT auth");
         String token = JWT.create()
                 .withSubject(((User) auth.getPrincipal()).getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
