@@ -1,55 +1,25 @@
-## Pairing App - Backend
+# PairTree - Backend 
 
-The backend of our Pair Programming app.
+### <a href="https://pair-tree.herokuapp.com/">pair-tree.herokuapp.com</a> 
+(Heroku connection can be slow - please allow some loading time!)
 
-Check out the frontend: <a href="https://github.com/Duncan-7/pairing-app-frontend">Pairing App Frontend</a>
+<br>
+<a href="https://github.com/zoecode26/pairing-tree-frontend">Frontend repo here</a>
 
-### Backend Stack
+---
 
-- `maven` to build the project
-- `java` to develop back-end
-- `spring boot`
-- `intellij` text editor for `java`
-- `postgresql` for database
+PairTree is a web application that allows developers to connect and learn together by pair programming and sharing knowledge. 
 
-### Card wall
+### Users can:
+- Create an account and add their language preferences and skill levels
+- Get matched with other developers who work with the same technologies
+- Use the in-app messaging feature to arrange times to pair program!
 
-<a href="https://trello.com/b/BRtHyVfB/super-team-education"> Team's Trello Board</a> 
+### Technologies:
+- React frontend
+- Springboot backend
+- PostgreSQL database
 
-### Database Schema
+---
 
-Here's the database schema:
-
-<img src="images/db_schema.png" width="700" height="500">
-
-### Features
-
-- Signup/Login/Logout
-- Password encryption
-- Pair matching algorithm
-- Messaging functionality once a pair is matched
-- Match display
-
-### Pairing Algorithm
-
-Starts with list of all users signed up and filters them down through the following criteria to find the most optimal matches:
-1. Users that are active
-2. Users that have the fewest selected language preferences
-3. Users that have at least one language in common
-4. Users that haven't been paired together before
-5. Users that have the most similar ability rating in the selected language
-
-Users will therefore get to pair with as many people as possible whilst always having a number of factors in common.
-
-### Try it!
-
-Want to see & try our app? Here's how:
-- Clone this repo using `git clone`
-- Clone the frontend using `git clone`
-- Install Maven `brew install maven`
-- Install `npm install`
-- From the command line create a dev database `createdb pairing_app`<br>
-  (if you're not using `postgresql` make sure you amend `application.properties` file to suit your database)
-- Build the app and start the server, using the Maven command `mvn spring-boot:run`
-- Build the frontend by running the command `npm start` in a different terminal window
-- Visit `localhost:3000`
+NOTE: This project was created as a team as part of the Makers Academy Bootcamp. I have since refactored parts of the code and hosted the web application.
